@@ -16,6 +16,9 @@ public struct EthereumQuantity {
     public static func bytes(_ bytes: Bytes) -> EthereumQuantity {
         return self.init(quantity: BigUInt(bytes))
     }
+    public init(quantity: BigUInt) {
+        self.quantity = quantity
+    }
 }
 
 public final class EthereumPublicKey {
