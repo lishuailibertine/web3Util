@@ -7,12 +7,6 @@
 //
 
 import Foundation
-
-extension UInt8: BytesConvertible {}
-extension UInt16: BytesConvertible {}
-extension UInt32: BytesConvertible {}
-extension UInt64: BytesConvertible {}
-
 extension UnsignedInteger {
 
     /**

@@ -10,17 +10,6 @@ import Foundation
 import CSecp256k1
 import CryptoSwift
 import BigInt
-
-public struct EthereumQuantity {
-    public let quantity: BigUInt
-    public static func bytes(_ bytes: Bytes) -> EthereumQuantity {
-        return self.init(quantity: BigUInt(bytes))
-    }
-    public init(quantity: BigUInt) {
-        self.quantity = quantity
-    }
-}
-
 public final class EthereumPublicKey {
 
     // MARK: - Properties
@@ -35,7 +24,7 @@ public final class EthereumPublicKey {
     private let ctx: OpaquePointer
 
 
-    public init(message: Bytes, v: EthereumQuantity, r: EthereumQuantity, s: EthereumQuantity, ctx: OpaquePointer? = nil) throws {
+    public init(message: Bytes, v: BigUInt, r: BigUInt, s: BigUInt, ctx: OpaquePointer? = nil) throws {
         // Create context
         let finalCtx: OpaquePointer
         if let ctx = ctx {
@@ -50,13 +39,13 @@ public final class EthereumPublicKey {
 
         // Create raw signature array
         var rawSig = Bytes()
-        var r = r.quantity.makeBytes().trimLeadingZeros()
-        var s = s.quantity.makeBytes().trimLeadingZeros()
+        var r = r.makeBytes().trimLeadingZeros()
+        var s = s.makeBytes().trimLeadingZeros()
 
         guard r.count <= 32 && s.count <= 32 else {
             throw Error.signatureMalformed
         }
-        guard let vUInt = v.quantity.makeBytes().bigEndianUInt, vUInt <= Int32.max else {
+        guard let vUInt = v.makeBytes().bigEndianUInt, vUInt <= Int32.max else {
             throw Error.signatureMalformed
         }
         let v = Int32(vUInt)
